@@ -1,0 +1,14 @@
+{
+    "project_name": "event_listener",
+    "author_name": "Jhon Doe",
+    "author_email": "jhon@company.com",
+    "consume_topic": "empresas_do_brasil",
+    "produce_topic": "output_topic",
+    "message_class": "Empresa",
+    "kafka_broker": "localhost:9092",
+    "kafka_schema_registry": "http://localhost:8081",
+    "kafka_username": "",
+    "kafka_password": "",
+    "kafka_schema_registry_auth": "",
+    "replication_factor": 1
+}
