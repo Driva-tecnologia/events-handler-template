@@ -1,7 +1,7 @@
 from consumer import Consumer
-from producer import Producer
 from handler import Handler
 from models.{{cookiecutter.consume_topic}}_model import {{cookiecutter.message_class}}
+from producer import Producer
 
 
 def main():

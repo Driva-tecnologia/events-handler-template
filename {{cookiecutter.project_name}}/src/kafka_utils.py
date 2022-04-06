@@ -3,8 +3,8 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Dict
 from textwrap import dedent
+from typing import Dict
 
 from confluent_kafka.admin import AdminClient, NewTopic
 from confluent_kafka.error import KafkaError, KafkaException
@@ -64,7 +64,7 @@ def create_topic(topic_name: str):
             NewTopic(
                 topic_name,
                 num_partitions=6,
-                replication_factor=int(os.environ["REPLICATION_FACTOR"]),
+                replication_factor=1,
             )
         ]
     )

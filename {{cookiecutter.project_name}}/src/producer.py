@@ -4,7 +4,6 @@ from typing import Type
 from confluent_kafka import SerializingProducer
 from confluent_kafka.schema_registry.avro import AvroSerializer
 from confluent_kafka.serialization import StringSerializer
-
 from kafka_utils import (
     create_topic,
     get_conf,
