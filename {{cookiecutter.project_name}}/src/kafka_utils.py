@@ -20,19 +20,6 @@ def get_conf() -> Dict[str, str]:
         "bootstrap.servers": os.environ["BOOTSTRAP_SERVERS"],
         "schema.registry.url": os.environ["SCHEMA_REGISTRY_URL"],
     }
-    username = os.getenv("SASL_USERNAME")
-    password = os.getenv("SASL_PASSWORD")
-    schema_registry_auth = os.getenv("SCHEMA_REGISTRY_AUTH")
-
-    if username and password and schema_registry_auth:
-        auth_conf = {
-            "security.protocol": "SASL_SSL",
-            "sasl.mechanisms": "PLAIN",
-            "sasl.username": username,
-            "sasl.password": password,
-            "basic.auth.user.info": schema_registry_auth,
-        }
-        base_conf.update(auth_conf)
     return base_conf
 
 
@@ -82,8 +69,20 @@ def create_topic(topic_name: str):
                 sys.exit(1)
 
 
+def topic_exists(topic: str) -> bool:
+    """
+    Returns True if the topic exists.
+    """
+    admin_client_conf = pop_schema_registry_params(get_conf())
+    admin_client = AdminClient(admin_client_conf)
+    topics = admin_client.list_topics(timeout=10)
+    return topic in topics.topics
+
+
 def get_schema_registry_client() -> SchemaRegistryClient:
-    """TODO"""
+    """
+    Returns a client to connect to the Kafka Schema Registry.
+    """
     conf = get_conf()
     schema_registry_conf = {
         "url": conf["schema.registry.url"],
@@ -95,7 +94,9 @@ def get_schema_registry_client() -> SchemaRegistryClient:
 
 
 def get_schema(topic: str) -> str:
-    """TODO"""
+    """
+    Returns the schema of the topic.
+    """
     schema_registry_client = get_schema_registry_client()
     schema = schema_registry_client.get_latest_version(topic + "-value")
     schema_str = schema.schema.schema_str
@@ -103,7 +104,9 @@ def get_schema(topic: str) -> str:
 
 
 def generate_model(topic: str) -> None:
-    """TODO"""
+    """
+    Generates a model from the schema of the topic.
+    """
     schema_str = get_schema(topic)
     schema_dict = json.loads(schema_str)
     file_content = avsc_to_pydantic(schema_dict)
