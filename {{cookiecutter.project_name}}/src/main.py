@@ -10,7 +10,7 @@ def main():
     c = Consumer({{cookiecutter.message_class}}, CONSUME_TOPIC)
     p = Producer({{cookiecutter.message_class}}, PRODUCE_TOPIC)
     h = Handler()
-    for msg in c.consume({{cookiecutter.message_class}}, limit=1):
+    for msg, timestamp, offset in c.consume({{cookiecutter.message_class}}):
         msg_handled = h.handle(msg.copy())
         if msg_handled != msg:
             print("Change detected")
