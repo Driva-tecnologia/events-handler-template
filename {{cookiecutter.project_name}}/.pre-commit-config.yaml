@@ -24,16 +24,3 @@ repos:
     entry: poetry run mypy
     types: [python]
     require_serial: true
-
-  - id: pylint
-    name: pylint
-    language: system
-    entry: poetry run pylint
-    types: [python]
-    args:
-      [
-        "-rn", # Only display messages
-        "-sn", # Don't display the score
-        "--rcfile=.pylintrc", # Link to your config file
-        "--load-plugins=pylint.extensions.docparams", # Load an extension
-      ]
